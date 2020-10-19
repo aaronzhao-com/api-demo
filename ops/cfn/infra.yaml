@@ -370,6 +370,12 @@ Outputs:
   PrivateSubnet2:
     Description: A reference to the private subnet in the 2nd Availability Zone
     Value: !Ref PrivateSubnet2
+  
+  PrivateSubnets:
+    Description: A list of the private subnets
+    Value: !Join [ ",", [ !Ref PrivateSubnet1, !Ref PrivateSubnet2]]
+    Export: 
+      Name: !Sub "${AWS::StackName}-PrivateSubnets"
 
   NoIngressSecurityGroup:
     Description: Security group with no ingress rule
@@ -382,7 +388,17 @@ Outputs:
   ALBTargetGroup:
     Description: ALB Target Group
     Value: !Ref ALBTargetGroup
+    Export:
+      Name: !Sub "${AWS::StackName}-ALBTargetGroup"
     
-  ECSTaskExecutionRole:
+  CSTaskExecutionRole:
     Description: ECS Task Execution Role
     Value: !Ref ECSTaskExecutionRole
+    Export:
+      Name: !Sub "${AWS::StackName}-ECSTaskExecutionRole"
+
+  ECSTaskExecutionRoleArn:
+    Description: ECS Task Execution Role
+    Value: !GetAtt ECSTaskExecutionRole.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-ECSTaskExecutionRoleArn"
