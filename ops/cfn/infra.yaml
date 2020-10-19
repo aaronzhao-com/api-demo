@@ -311,8 +311,7 @@ Resources:
     Type: 'AWS::ElasticLoadBalancingV2::Listener'
     Properties:
       Certificates:
-        - CertificateArn:
-            Fn::ImportValue: !Sub "${InfraStackName}-AcmCertificate"
+        - !Ref SslCertificate
       DefaultActions:
         - Type: forward
           ForwardConfig:
@@ -323,6 +322,15 @@ Resources:
       Port: 443
       Protocol: HTTPS
       SslPolicy: ELBSecurityPolicy-2016-08
+  
+  SslCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Sub '*.${HostedZoneName}'
+      DomainValidationOptions:
+            - DomainName: !Sub '*.${HostedZoneName}'
+              HostedZoneId: !Ref HostedZoneId
+      ValidationMethod: DNS
 
 Outputs:
   VPC:
