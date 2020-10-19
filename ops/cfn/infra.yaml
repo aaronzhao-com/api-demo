@@ -340,7 +340,7 @@ Resources:
         HostedZoneId: !GetAtt ALB.CanonicalHostedZoneID
       Comment: 'API ALB'
       HostedZoneName: !Sub '${HostedZoneName}.'
-      Name: !Sub '${SubDomain}.${HostedZoneName}'
+      Name: !Sub '${HostedZoneName}'
       Type: A
 
 Outputs:
