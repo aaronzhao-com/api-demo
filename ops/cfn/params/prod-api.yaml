@@ -1,0 +1,11 @@
+---
+Environment: prod
+InfraStackName: prod-api-demo-infra
+SubDomain: api
+HostedZoneId: Z07676401F86OHEZYYC46
+HostedZoneName: demo.aaronzhao.com
+LogRetentionDays: '30'
+ScalingTargetCPU: '80'
+DesiredTaskCount: '1'
+MinTaskCount: '1'
+MaxTaskCount: '3'

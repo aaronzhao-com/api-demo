@@ -1,0 +1,183 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Deploys Email Service API infrastructure in ECS Cluster
+Parameters:
+  InfraStackName:
+    Type: String
+  DockerImage:
+    Type: String
+  Environment:
+    Type: String
+  SubDomain:
+    Type: String
+  LogRetentionDays:
+    Type: String
+  ScalingTargetCPU:
+    Type: String
+  DesiredTaskCount:
+    Type: String
+  MinTaskCount:
+    Type: String
+  MaxTaskCount:
+    Type: String
+  HostedZoneName:
+    Type: String
+  HostedZoneId:
+    Type: String
+
+  ECSEmailCluster:
+    Type: 'AWS::ECS::Cluster'
+    Properties: 
+      ClusterName: !Join [ "", [ !Ref Environment, "ECSCluster" ] ]
+
+  TaskDefinition:
+    Type: 'AWS::ECS::TaskDefinition'
+    Properties:
+      TaskRoleArn: 
+        Fn::ImportValue: !Sub "${InfraStackName}-ECSTaskExecutionRoleArn"
+      ExecutionRoleArn: 
+        Fn::ImportValue: !Sub "${InfraStackName}-ECSTaskExecutionRoleArn"
+      ContainerDefinitions:
+        - Name: EmailApp
+          Image: !Ref DockerImage
+          Essential: true
+          PortMappings:
+            - HostPort: 8000
+              Protocol: tcp
+              ContainerPort: 8000
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref CloudwatchLogsGroup
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: !Sub "emailService-${Environment}-ecs"
+              awslogs-multiline-pattern: "[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])T(2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9].([0-9]){3}Z -"
+          Environment:
+            - Name: ENVIRONMENT
+              Value: !Ref Environment
+            - Name: WAIT_CONDITION_URL
+              Value: !Ref 'WaitConditionHandle${WaitConditionRandomNum}'
+            - Name: NAME
+              Value: 'API'
+          Command:
+            - email-api
+          Secrets:
+            - Name: MANDRILL_KEY
+              ValueFrom: !Sub 'arn:aws:ssm:ap-southeast-2:${AWS::AccountId}:parameter/email-service/MANDRILL_KEY'
+            - Name: NEWRELIC_LICENSE_KEY
+              ValueFrom: !Sub 'arn:aws:ssm:ap-southeast-2:${AWS::AccountId}:parameter/email-service/NEWRELIC_LICENSE_KEY'
+            - Name: SEGMENT_WRITEKEY
+              ValueFrom: !Sub 'arn:aws:ssm:ap-southeast-2:${AWS::AccountId}:parameter/email-service/SEGMENT_WRITEKEY'
+            - Name: DSN_DATA
+              ValueFrom: !Sub 'arn:aws:ssm:ap-southeast-2:${AWS::AccountId}:parameter/email-service/DSN_DATA'
+            - Name: DSN_COLDDATA
+              ValueFrom: !Sub 'arn:aws:ssm:ap-southeast-2:${AWS::AccountId}:parameter/email-service/DSN_COLDDATA'
+            - Name: TRAFFIC_COP_KEY
+              ValueFrom: !Sub 'arn:aws:ssm:ap-southeast-2:${AWS::AccountId}:parameter/email-service/TRAFFIC_COP_KEY'
+            
+      RequiresCompatibilities:
+        - FARGATE
+      NetworkMode: awsvpc
+      Cpu: '1024'
+      Memory: '4096'
+      Family: email-api
+
+  ECSEmailService:
+    DependsOn: EmailALBListener
+    Type: 'AWS::ECS::Service'
+    Properties:
+      Cluster: !Join
+        - /
+        - - !Sub 'arn:aws:ecs:ap-southeast-2:${AWS::AccountId}:cluster'
+          - Fn::ImportValue: !Sub "${InfraStackName}-ECSEmailCluster" 
+      DesiredCount: !Ref DesiredTaskCount
+      DeploymentController:
+        Type: ECS
+      TaskDefinition: !Ref TaskDefinition
+      LaunchType: FARGATE
+      LoadBalancers:
+        - ContainerName: EmailApp
+          ContainerPort: 8000
+          TargetGroupArn: !Ref ALBTargetGroup
+      PlatformVersion: 1.3.0
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: DISABLED
+          SecurityGroups:
+            - Fn::ImportValue:
+                !Sub "${InfraStackName}-ApiEcsSecurityGroup"
+          Subnets:
+            Fn::Split:
+              - ","
+              - Fn::ImportValue: !Sub "${InfraStackName}-PrivateSubnets"
+  
+  ApiDNS:
+    Type: AWS::Route53::RecordSet
+    Properties: 
+      AliasTarget: 
+        DNSName: !GetAtt EmailALB.DNSName
+        EvaluateTargetHealth: true
+        HostedZoneId: !GetAtt EmailALB.CanonicalHostedZoneID
+      Comment: 'API ALB'
+      HostedZoneName: !Sub '${HostedZoneName}.'
+      Name: !Sub '${SubDomain}.${HostedZoneName}'
+      Type: A
+
+  ECSScalableTarget:
+      Type: AWS::ApplicationAutoScaling::ScalableTarget
+      Properties:
+        MaxCapacity: !Ref MaxTaskCount
+        MinCapacity: !Ref MinTaskCount
+        RoleARN: 
+          Fn::Sub: 'arn:aws:iam::${AWS::AccountId}:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService'
+        ServiceNamespace: ecs
+        ScalableDimension: 'ecs:service:DesiredCount'
+        ResourceId: !Join 
+          - /
+          - - service
+            - Fn::ImportValue: !Sub "${InfraStackName}-ECSEmailCluster"
+            - !GetAtt ECSEmailService.Name
+    
+  ServiceScalingPolicyCPU:
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: !Sub ${AWS::StackName}-target-tracking-cpu
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId:
+        !Ref ECSScalableTarget
+      TargetTrackingScalingPolicyConfiguration:
+        TargetValue: !Ref ScalingTargetCPU
+        ScaleInCooldown: 180
+        ScaleOutCooldown: 60
+        PredefinedMetricSpecification:
+          PredefinedMetricType: ECSServiceAverageCPUUtilization
+
+  ManageLogGroupsPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      Roles: 
+        - Fn::ImportValue: !Sub "${InfraStackName}-ECSTaskExecutionRole"
+      PolicyName: !Sub "${Environment}-ManageLogGroups"
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+            - "logs:CreateLogGroup"
+            - "logs:CreateLogStream"
+            - "logs:PutLogEvents"
+            - "logs:DescribeLogStreams"
+            Resource: !GetAtt 
+              - CloudwatchLogsGroup
+              - Arn
+
+  CloudwatchLogsGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "${AWS::StackName}-ecs-logs"
+      RetentionInDays: !Ref LogRetentionDays
+
+Outputs:
+  ECSEmailServiceName:
+    Description: 'ECS Service Name'
+    Value: !GetAtt ECSEmailService.Name

@@ -6,7 +6,7 @@ steps:
 
   - label: 'PROD - Deploy Infrastructure'
     command: 
-      - ./ops/scripts/deploy.sh
+      - ./ops/scripts/deploy-infra.sh
     env:
       ENV: prod
       STACK: infra
@@ -18,3 +18,11 @@ steps:
     env:
       ENV: prod
       ACCOUNT: ${PROD_ACCOUNT}
+  
+  - label: 'PROD - Deploy API Application'
+    command: 
+      - ./ops/scripts/deploy-app.sh
+    env:
+      ENV: prod
+      ACCOUNT: ${PROD_ACCOUNT}
+      STACK: api
