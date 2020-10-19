@@ -306,7 +306,7 @@ Resources:
     Type: 'AWS::ElasticLoadBalancingV2::Listener'
     Properties:
       Certificates:
-        - !Ref SslCertificate
+        - CertificateArn: !Ref SslCertificate
       DefaultActions:
         - Type: forward
           ForwardConfig:
@@ -326,7 +326,7 @@ Resources:
             - DomainName: !Sub '*.${HostedZoneName}'
               HostedZoneId: !Ref HostedZoneId
       ValidationMethod: DNS
-
+      
 Outputs:
   VPC:
     Description: A reference to the created VPC
