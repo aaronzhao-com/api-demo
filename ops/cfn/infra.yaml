@@ -327,6 +327,18 @@ Resources:
               HostedZoneId: !Ref HostedZoneId
       ValidationMethod: DNS
 
+  ApiDNS:
+    Type: AWS::Route53::RecordSet
+    Properties: 
+      AliasTarget: 
+        DNSName: !GetAtt ALB.DNSName
+        EvaluateTargetHealth: true
+        HostedZoneId: !GetAtt ALB.CanonicalHostedZoneID
+      Comment: 'API ALB'
+      HostedZoneName: !Sub '${HostedZoneName}.'
+      Name: !Sub '${SubDomain}.${HostedZoneName}'
+      Type: A
+
 Outputs:
   VPC:
     Description: A reference to the created VPC

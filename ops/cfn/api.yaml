@@ -8,8 +8,6 @@ Parameters:
     Type: String
   Environment:
     Type: String
-  SubDomain:
-    Type: String
   LogRetentionDays:
     Type: String
   ScalingTargetCPU:
@@ -19,10 +17,6 @@ Parameters:
   MinTaskCount:
     Type: String
   MaxTaskCount:
-    Type: String
-  HostedZoneName:
-    Type: String
-  HostedZoneId:
     Type: String
 
 Resources:
@@ -88,18 +82,6 @@ Resources:
             Fn::Split:
               - ","
               - Fn::ImportValue: !Sub "${InfraStackName}-PrivateSubnets"
-  
-  ApiDNS:
-    Type: AWS::Route53::RecordSet
-    Properties: 
-      AliasTarget: 
-        DNSName: !GetAtt ALB.DNSName
-        EvaluateTargetHealth: true
-        HostedZoneId: !GetAtt ALB.CanonicalHostedZoneID
-      Comment: 'API ALB'
-      HostedZoneName: !Sub '${HostedZoneName}.'
-      Name: !Sub '${SubDomain}.${HostedZoneName}'
-      Type: A
 
   ECSScalableTarget:
       Type: AWS::ApplicationAutoScaling::ScalableTarget

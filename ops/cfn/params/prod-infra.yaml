@@ -7,3 +7,4 @@ PrivateSubnet1CIDR: 10.10.20.0/24
 PrivateSubnet2CIDR: 10.10.21.0/24
 HostedZoneId: Z07676401F86OHEZYYC46
 HostedZoneName: demo.aaronzhao.com
+SubDomain: api
