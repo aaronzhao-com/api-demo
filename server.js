@@ -1,5 +1,7 @@
 'use strict';
 
+var version = process.env.BUILDKITE_BUILD_NUMBER;
+
 const express = require('express');
 
 // Constants
@@ -9,7 +11,7 @@ const HOST = '0.0.0.0';
 // App
 const app = express();
 app.get('/', (req, res) => {
-  res.send('Hello World');
+  res.send(version);
 });
 
 app.listen(PORT, HOST);

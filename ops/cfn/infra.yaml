@@ -33,6 +33,9 @@ Parameters:
 
   HostedZoneId:
     Type: String
+  
+  SubDomain:
+    Type: String
 
 Resources:
   VPC:
