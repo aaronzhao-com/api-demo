@@ -13,6 +13,15 @@ steps:
   
   - wait
   
+  - label: 'PROD - Test'
+    command: 
+      - ./ops/scripts/test.sh
+    env:
+      ENV: prod
+      ACCOUNT: ${PROD_ACCOUNT}
+  
+  - wait
+  
   - label: 'PROD - Build and Publish'
     command: 
       - ./ops/scripts/build.sh
