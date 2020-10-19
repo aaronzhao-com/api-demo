@@ -2,7 +2,7 @@
 
 ## Application
 
-api.demo.aaronzhao.com
+**Endpoint**: https://api.aaronzhao.com/version
 
 ## Infrustructure
 
