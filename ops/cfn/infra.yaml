@@ -402,3 +402,9 @@ Outputs:
     Value: !GetAtt ECSTaskExecutionRole.Arn
     Export:
       Name: !Sub "${AWS::StackName}-ECSTaskExecutionRoleArn"
+
+  ApiEcsSecurityGroup:
+    Description: Api Ecs Security Grouple
+    Value: !Ref ApiEcsSecurityGroup
+    Export:
+      Name: !Sub "${AWS::StackName}-ApiEcsSecurityGroup"
