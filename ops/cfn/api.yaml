@@ -76,7 +76,7 @@ Resources:
         - ContainerName: App
           ContainerPort: 8080
           TargetGroupArn: 
-            Fn::ImportValue: !Sub "${InfraStackName}-ALBTargetGroup
+            Fn::ImportValue: !Sub "${InfraStackName}-ALBTargetGroup"
       PlatformVersion: 1.3.0
       NetworkConfiguration:
         AwsvpcConfiguration:
