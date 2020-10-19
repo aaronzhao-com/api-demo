@@ -16,3 +16,5 @@ stackup ${ENV}-api-demo-${STACK} up \
     -t ./ops/cfn/${STACK}.yaml \
     -p ./ops/cfn/params/${ENV}-${STACK}.yaml \
     -o DockerImage=${IMAGE}:${BUILDKITE_BUILD_NUMBER}
+    -o AppVersion=${BUILDKITE_BUILD_NUMBER}
+    -o AppCommit=${BUILDKITE_COMMIT}

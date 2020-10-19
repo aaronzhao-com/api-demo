@@ -1,7 +1,7 @@
 'use strict';
 
-var version = process.env.BUILDKITE_BUILD_NUMBER;
-var commit = process.env.BUILDKITE_COMMIT;
+var version = process.env.APP_VERSION;
+var commit = process.env.APP_COMMIT;
 
 console.log(`Version is ${version}`);
 
