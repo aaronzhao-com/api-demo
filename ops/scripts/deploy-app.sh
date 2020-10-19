@@ -13,6 +13,6 @@ stackup ${ENV}-api-demo-${STACK} up \
     --preserve-template-formatting \
     --capability CAPABILITY_IAM \
     --capability CAPABILITY_AUTO_EXPAND \
-    -t ./deploy/cfn/${STACK}.yaml \
-    -p ./deploy/cfn/params/${ENV}-${STACK}.yaml \
+    -t ./ops/cfn/${STACK}.yaml \
+    -p ./ops/cfn/params/${ENV}-${STACK}.yaml \
     -o DockerImage=${IMAGE}:${BUILDKITE_BUILD_NUMBER}
