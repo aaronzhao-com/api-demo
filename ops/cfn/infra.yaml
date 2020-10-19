@@ -277,12 +277,12 @@ Resources:
   ALBTargetGroup:
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
     Properties:
-      HealthCheckIntervalSeconds: 5
+      HealthCheckIntervalSeconds: 60
       HealthCheckPath: /version
       HealthCheckPort: '8080'
       HealthCheckProtocol: HTTP
       HealthCheckTimeoutSeconds: 2
-      HealthyThresholdCount: 2
+      HealthyThresholdCount: 1
       Matcher:
         HttpCode: '200'
       Port: 8080
