@@ -10,7 +10,7 @@ const PORT = 8080;
 
 // App
 const app = express();
-app.get('/', (req, res) => {
+app.get('/version', (req, res) => {
   res.json({"myapplication": [{"version": version,"lastcommitsha": commit, "description": "pre-interview techinal test"}]});
 });
 
