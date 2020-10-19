@@ -383,3 +383,6 @@ Outputs:
     Description: ALB Target Group
     Value: !Ref ALBTargetGroup
     
+  ECSTaskExecutionRole:
+    Description: ECS Task Execution Role
+    Value: !Ref ECSTaskExecutionRole
