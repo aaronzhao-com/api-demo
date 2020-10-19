@@ -267,7 +267,7 @@ Resources:
     Properties:
       DomainName: !Sub '*.${HostedZoneName}'
       DomainValidationOptions:
-            - DomainName: !Sub '*.${HostedZoneName}'
+            - DomainName: !Sub '${HostedZoneName}'
               HostedZoneId: !Ref HostedZoneId
       ValidationMethod: DNS
 
