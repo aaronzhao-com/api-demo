@@ -279,7 +279,7 @@ Resources:
     Properties:
       Matcher:
         HttpCode: '200'
-      Port: 8000
+      Port: 8080
       Protocol: HTTP
       TargetGroupAttributes:
         - Key: 'deregistration_delay.timeout_seconds'
