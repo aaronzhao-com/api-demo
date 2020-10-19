@@ -10,7 +10,9 @@ steps:
     env:
       ENV: prod
       STACK: infra
-
+  
+  - wait
+  
   - label: 'PROD - Build and Publish'
     command: 
       - ./ops/scripts/build.sh
@@ -19,6 +21,8 @@ steps:
       ENV: prod
       ACCOUNT: ${PROD_ACCOUNT}
   
+  - wait
+
   - label: 'PROD - Deploy API Application'
     command: 
       - ./ops/scripts/deploy-app.sh
