@@ -4,7 +4,7 @@ env:
 
 steps:
 
-  - label: 'Test'
+  - label: ':test_tube: Unit Test'
     command: 
       - ./ops/scripts/test.sh
     env:
@@ -13,7 +13,7 @@ steps:
   
   - wait  
   
-  - label: 'PROD - Deploy Infrastructure'
+  - label: ':building_construction: PROD - Deploy Infrastructure'
     command: 
       - ./ops/scripts/deploy-infra.sh
     env:
@@ -22,7 +22,7 @@ steps:
   
   - wait
   
-  - label: 'PROD - Build and Publish Docker Image'
+  - label: ':docker: PROD - Build and Publish Docker Image'
     command: 
       - ./ops/scripts/build.sh
       - ./ops/scripts/publish.sh
@@ -32,7 +32,7 @@ steps:
   
   - wait
 
-  - label: 'PROD - Deploy API Application'
+  - label: ':rocket: PROD - Deploy API Application'
     command: 
       - ./ops/scripts/deploy-app.sh
     env:
