@@ -3,19 +3,17 @@
 var version = process.env.APP_VERSION;
 var commit = process.env.APP_COMMIT;
 
-console.log(`Version is ${version}`);
-
 const express = require('express');
 
 // Constants
 const PORT = 8080;
 
-function getJSON(){
+function getJSON(version,commit){
     return{
         "myaplication": [
             {
-                "version": $version,
-                "lastcommitsha": $commit,
+                "version": version,
+                "lastcommitsha": commit,
                 "description": "pre-interview technical test"
             }
         ]
@@ -24,7 +22,7 @@ function getJSON(){
 // App
 const app = express();
 app.get('/version', (req, res) => {
-  res.json(getJSON());
+  res.json(getJSON(version,commit));
 });
 app.listen(PORT);
 console.log(`Running on port ${PORT}`);
