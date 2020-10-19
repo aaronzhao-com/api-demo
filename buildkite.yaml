@@ -1,4 +1,7 @@
 ---
+env:
+  PROD_ACCOUNT: '046791459906'
+
 steps:
 
   - label: 'PROD - Deploy Infrastructure'
@@ -7,3 +10,11 @@ steps:
     env:
       ENV: prod
       STACK: infra
+
+  - label: 'PROD - Build and Publish'
+    command: 
+      - ./ops/scripts/build.sh
+      - ./ops/scripts/publish.sh
+    env:
+      ENV: prod
+      ACCOUNT: PROD_ACCOUNT
