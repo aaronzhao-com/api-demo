@@ -18,7 +18,7 @@ describe('GET /version', () => {
     const mockResponse = {
       'myapplication': [{
         'version': '1.0',
-        'lastcommitsha': 'abc57858585',
+        'lastcommitsha': 'abc578585850',
         'description': 'pre-interview technical test'
       }]
     };
