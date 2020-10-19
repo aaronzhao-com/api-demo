@@ -7,3 +7,10 @@ steps:
     env:
       ENV: prod
       STACK: infra
+
+  - label: 'PROD - Terminate API Application'
+    command: 
+      - ./ops/scripts/terminate.sh
+    env:
+      ENV: prod
+      STACK: api
