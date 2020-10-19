@@ -282,7 +282,7 @@ Resources:
       HealthCheckPort: '8080'
       HealthCheckProtocol: HTTP
       HealthCheckTimeoutSeconds: 2
-      HealthyThresholdCount: 1
+      HealthyThresholdCount: 2
       Matcher:
         HttpCode: '200'
       Port: 8080
