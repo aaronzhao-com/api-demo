@@ -1,18 +1,19 @@
 {
-    "name": "api_demo",
-    "version": "1.0.0",
-    "description": "Node.js Docker ECS",
-    "author": "Aaron Zhao <mail@aaronzhao.com>",
-    "main": "app.js",
-    "scripts": {
-        "start": "node app.js",
-        "test": "jest --forceExit"
-    },
-    "dependencies": {
-        "express": "^4.16.1",
-        "body-parser": "^1.19.0"
-    },
-    "devDependencies": {
-        "jest": "^26.5.3",
-        "supertest": "^5.0.0"    
+  "name": "api_demo",
+  "version": "1.0.0",
+  "description": "Node.js Docker ECS",
+  "author": "Aaron Zhao <mail@aaronzhao.com>",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "jest --forceExit"
+  },
+  "dependencies": {
+    "express": "^4.16.1",
+    "body-parser": "^1.19.0"
+  },
+  "devDependencies": {
+    "jest": "^26.5.3",
+    "supertest": "^5.0.0"
+  }
 }
