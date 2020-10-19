@@ -11,7 +11,9 @@ steps:
       ENV: prod
       ACCOUNT: ${PROD_ACCOUNT}
   
-  - wait  - label: 'PROD - Deploy Infrastructure'
+  - wait  
+  
+  - label: 'PROD - Deploy Infrastructure'
     command: 
       - ./ops/scripts/deploy-infra.sh
     env:
