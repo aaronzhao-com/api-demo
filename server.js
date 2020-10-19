@@ -10,9 +10,9 @@ app.use(bodyParser.json());
 const buildAndReturnVersionPayload = (req, res) => {
   const payload = {
     [appName]: [{
-      version,
+      version: version,
       lastcommitsha: lastCommitSha,
-      description
+      description: description
     }]
   };
 ​
