@@ -50,7 +50,7 @@ Resources:
               awslogs-group: !Ref CloudwatchLogsGroup
               awslogs-region: !Ref AWS::Region
               awslogs-stream-prefix: !Sub "Service-${Environment}-ecs"
-         Environment:
+          Environment:
           - Name: APP_VERSION
             Value: !Ref AppVersion
           - Name: APP_COMMIT
