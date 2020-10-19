@@ -11,8 +11,7 @@ const PORT = 8080;
 // App
 const app = express();
 app.get('/version', (req, res) => {
-  res.json({"myapplication": [{"version": version,"lastcommitsha": commit, "description": "pre-interview techinal test"}]});
-});
+  res.send(version)
 
 app.listen(PORT);
 console.log(`Running on port ${PORT}`);
