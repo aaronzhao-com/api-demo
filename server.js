@@ -11,7 +11,7 @@ const PORT = 8080;
 // App
 const app = express();
 app.get('/version', (req, res) => {
-  res.send(version)
-
+  res.send(version);
+});
 app.listen(PORT);
 console.log(`Running on port ${PORT}`);
