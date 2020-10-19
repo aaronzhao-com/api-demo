@@ -1,0 +1,9 @@
+---
+steps:
+
+  - label: 'PROD - Deploy Infrastructure'
+    command: 
+      - ./ops/scripts/deploy.sh
+    env:
+      ENV: prod
+      STACK: infra

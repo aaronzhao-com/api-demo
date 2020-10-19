@@ -1,0 +1,9 @@
+---
+steps:
+
+  - label: 'PROD - Terminate Infrastructure'
+    command: 
+      - ./ops/scripts/terminate.sh
+    env:
+      ENV: prod
+      STACK: infra
