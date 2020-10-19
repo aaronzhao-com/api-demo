@@ -10,10 +10,21 @@ const express = require('express');
 // Constants
 const PORT = 8080;
 
+function getJSON(){
+    return{
+        "myaplication": [
+            {
+                "version": $version,
+                "lastcommitsha": $commit,
+                "description": "pre-interview technical test"
+            }
+        ]
+    }
+}
 // App
 const app = express();
 app.get('/version', (req, res) => {
-  res.send(`version is ${version}`);
+  res.json(getJSON());
 });
 app.listen(PORT);
 console.log(`Running on port ${PORT}`);
