@@ -2,7 +2,19 @@
 
 ## Application
 
-## CI/CI
+api.demo.aaronzhao.com
+
+## Infrustructure
+
+Both infrastructure and application are deployed using CloudFormation by BuilKite. All infrusture are created as code in GitHub. The application is deployed in AWS PVC with both private and public subnets. 
+
+**Availability:** 2 Availability zones are used for this demo but all of the AZs should be used in Production. 
+**Performance**: ECS with auto scalling on CPU usage.
+**Security**: Both ECS and ALB are secured by Security Groups. The ECS tasks are in private subnets and only accessibale from ALB security groups. ALB is in public subnet. 
+**SSL**: Amazon Issued Certificate installed on ALB Listener with `ELBSecurityPolicy-2016-08` policy. 
+
+
+## CI/CD
 
 CI/CD are manged by [BuildKite](https://buildkite.com/). The [agent](https://buildkite.com/docs/agent/v3/osx) is running on my Mac laptop. Pipeline steps:
 
