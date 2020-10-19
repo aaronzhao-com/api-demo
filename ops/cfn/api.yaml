@@ -25,6 +25,7 @@ Parameters:
   HostedZoneId:
     Type: String
 
+Resources:
   ECSCluster:
     Type: 'AWS::ECS::Cluster'
     Properties: 
