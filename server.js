@@ -1,28 +1,22 @@
 'use strict';
-
-var version = process.env.APP_VERSION;
-var commit = process.env.APP_COMMIT;
-
-const express = require('express');
-
-// Constants
-const PORT = 8080;
-
-function getJSON(version,commit){
-    return{
-        "myaplication": [
-            {
-                "version": version,
-                "lastcommitsha": commit,
-                "description": "pre-interview technical test"
-            }
-        ]
-    }
+​
+const bodyParser = require('body-parser');
+const app = require('express')();
+const { appName, version, lastCommitSha, description, port }​ = require('./config');
+​
+app.listen(port);
+app.use(bodyParser.json());
+​
+const buildAndReturnVersionPayload = (req, res) => {
+  const payload = {
+    [appName]: [{
+      version,
+      lastcommitsha: lastCommitSha,
+      description
+    }]
+  };
+​
+  res.json(payload);
 }
-// App
-const app = express();
-app.get('/version', (req, res) => {
-  res.json(getJSON(version,commit));
-});
-app.listen(PORT);
-console.log(`Running on port ${PORT}`);
+​
+app.get('/version', buildAndReturnVersionPayload);
