@@ -300,7 +300,8 @@ Resources:
     Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
     Properties:
       Scheme: internet-facing
-      SecurityGroups: !Ref ApiAlbSecurityGroup
+      SecurityGroups: 
+        - !Ref ApiAlbSecurityGroup
       Subnets:
         - !Ref PublicSubnet1
         - !Ref PublicSubnet2
