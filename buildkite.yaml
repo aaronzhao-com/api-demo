@@ -17,4 +17,4 @@ steps:
       - ./ops/scripts/publish.sh
     env:
       ENV: prod
-      ACCOUNT: PROD_ACCOUNT
+      ACCOUNT: ${PROD_ACCOUNT}

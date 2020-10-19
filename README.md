@@ -42,3 +42,4 @@ Here are the benefit of Stackup.
 ## Reference:
 - https://docs.aws.amazon.com/codebuild/latest/userguide/cloudformation-vpc-template.html
 - https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/blue-green.html
+- https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
