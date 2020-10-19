@@ -61,7 +61,6 @@ Resources:
       Family: -api
 
   ECSService:
-    DependsOn: ALBListener
     Type: 'AWS::ECS::Service'
     Properties:
       Cluster: !Join
@@ -76,7 +75,8 @@ Resources:
       LoadBalancers:
         - ContainerName: App
           ContainerPort: 8080
-          TargetGroupArn: !Ref ALBTargetGroup
+          TargetGroupArn: 
+            Fn::ImportValue: !Sub "${InfraStackName}-ALBTargetGroup
       PlatformVersion: 1.3.0
       NetworkConfiguration:
         AwsvpcConfiguration:

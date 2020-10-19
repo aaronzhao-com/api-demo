@@ -326,7 +326,7 @@ Resources:
             - DomainName: !Sub '*.${HostedZoneName}'
               HostedZoneId: !Ref HostedZoneId
       ValidationMethod: DNS
-      
+
 Outputs:
   VPC:
     Description: A reference to the created VPC
@@ -359,4 +359,12 @@ Outputs:
   NoIngressSecurityGroup:
     Description: Security group with no ingress rule
     Value: !Ref NoIngressSecurityGroup
+
+  ALBListener:
+    Description: ALB Listener
+    Value: !Ref ALBListener
+  
+  ALBTargetGroup:
+    Description: ALB Target Group
+    Value: !Ref ALBTargetGroup
     
