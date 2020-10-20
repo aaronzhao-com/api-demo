@@ -57,7 +57,6 @@ CI/CD are managed by [Buildkite](https://buildkite.com/). Pipeline steps:
 
 ![Buildkite Pipeline](/images/pipeline.png)
 
-
 **Notes:**
 1. The Buildkite [agent](https://buildkite.com/docs/agent/v3/osx) is running on my laptop and it uses the AWS keys in my laptop. For real applicaitons, the agents can be hosted on AWS EC2 with autoscaling and accesses other AWS resources using IAM role.  
 1. I used [Stackup](https://github.com/realestate-com-au/stackup) to deploy CloudFormation templates instead of AWS cli.
@@ -66,13 +65,6 @@ Here are the benefits of Stackup:
 - It provides a stream of events as changes are made
 - It can create or update with the same command
 - It accepts parameters as a YAML file
-
-## Risks:
-- This demo API does not have any authentication which is required for real application.
-- There is no WAF for the application. 
-- There is no rate limit for the API.
-- This demo deploys to Production environment directly. For real applicaitons, it should be deployed to Dev and Preprod environments first before deploying to Prodcution environment.
-- This demo application does not have monitoring and alerting. Alerts should be triggered when the API is offline or when it reachs the max number of tasks in ECS autoscaling. 
 
 ## Run locally
 
@@ -92,6 +84,12 @@ http://localhost:8080/version
 
 (Version and LastCommitsha is unavailable locally becasue version is build numbner from Buldkite.)
 
+## Risks:
+- This demo API does not have any authentication which is required for real application.
+- There is no WAF for the application. 
+- There is no rate limit for the API.
+- This demo deploys to Production environment directly. For real applicaitons, it should be deployed to Dev and Preprod environments first before deploying to Prodcution environment.
+- This demo application does not have monitoring and alerting. Alerts should be triggered when the API is offline or when it reachs the max number of tasks in ECS autoscaling. 
 
 ## Reference:
 - https://docs.aws.amazon.com/codebuild/latest/userguide/cloudformation-vpc-template.html
