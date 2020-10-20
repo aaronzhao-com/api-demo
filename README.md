@@ -26,6 +26,8 @@ Node.js REST API returns the version, last commit sha and description of this AP
 
 Unit test is done using `jest` and `supertest`. It is done by overwriting the application config and comparing the responds with mock response. 
 
+![Unit Test](/images/test.png)
+
 ## Infrastructure
 
 Both infrastructure and application are deployed using CloudFormation by BuilKite. All Infrastructure are created as code in GitHub. The application is deployed in AWS PVC with private and public subnets. 
@@ -72,6 +74,25 @@ Here are the benefits of Stackup:
 - There is no rate limit for the API.
 - This demo deploys to Production environment directly. For real applicaitons, it should be deployed to Dev and Preprod environments first before deploying to Prodcution environment.
 - This demo application does not have monitoring and alerting. Alerts should be triggered when the API is offline or when it reachs the max number of tasks in ECS autoscaling. 
+
+## Run locally
+
+Test:
+```
+npm install
+npm run test
+```
+
+Run:
+```
+npm install
+npm run start
+```
+
+http://localhost:8080/version
+
+(Version and LastCommitsha is unavailable locally becasue version is build numbner from Buldkite.)
+
 
 ## Reference:
 - https://docs.aws.amazon.com/codebuild/latest/userguide/cloudformation-vpc-template.html
