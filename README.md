@@ -34,7 +34,7 @@ Both infrastructure and application are deployed using CloudFormation by BuilKit
 
 **Availability:** 2 Availability Zones (AZs) are used for this demo but all of the AZs should be used in Production.
 
-**Performance**: ECS with auto scaling on CPU usage. Only one task is deployed for this demo. At least one task in each AZ should be deployed for real application.
+**Performance**: ECS with auto scaling on CPU usage. Only one task is deployed for this demo. At least one task in each AZ should be deployed for real applications.
 
 **Security**: Both ECS and ALB are secured by Security Groups. The ECS tasks are in private subnets and only accessible from ALB security group. ECS tasks are not accessible directly from the Internet. ALB is in the public subnet. Extra security can be done by NACL and WAF.
 
@@ -53,19 +53,18 @@ CI/CD are managed by [Buildkite](https://buildkite.com/). Pipeline steps:
     - ALB, DNS, SSL Certificate
 1. Build docker image
 1. Publish docker image to ECR
-1. Deploy application to ECSS
+1. Deploy application to ECS
 
 ![Buildkite Pipeline](/images/pipeline.png)
 
 
 **Notes:**
-1. The Buildkite [agent](https://buildkite.com/docs/agent/v3/osx) is running on my laptop and it uses the AWS keys in my laptop. In real applicaitons, the agents can be hosted on AWS EC2 with autoscaling and accesses other AWS resources using IAM role.  
+1. The Buildkite [agent](https://buildkite.com/docs/agent/v3/osx) is running on my laptop and it uses the AWS keys in my laptop. For real applicaitons, the agents can be hosted on AWS EC2 with autoscaling and accesses other AWS resources using IAM role.  
 1. I used [Stackup](https://github.com/realestate-com-au/stackup) to deploy CloudFormation templates instead of AWS cli.
 Here are the benefits of Stackup:
 - It treats stack changes as synchronous
 - It provides a stream of events as changes are made
 - It can create or update with the same command
-- No-op updates won't error out
 - It accepts parameters as a YAML file
 
 ## Risks:
