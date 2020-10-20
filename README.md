@@ -12,9 +12,9 @@ Node.js REST API returns the version, last commit sha and description of this AP
 
 **Method:** GET
 
-**Version:** Buildkite build numbner
+**Version:** Buildkite build number
 
-**LastCommitSha:** Githut commit sha
+**LastCommitSha:** Github commit sha
 
 *Version and LastCommitSha are passed from Buildkite agent to dcoker environment, and then read into the api application.*
 
