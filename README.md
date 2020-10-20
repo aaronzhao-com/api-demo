@@ -70,19 +70,18 @@ Here are the benefits of Stackup:
 
 Test:
 ```
-npm install
-npm run test
+ops/scripts/test.sh
 ```
 
 Run:
 ```
-npm install
-npm run start
+ops/scripts/run_local.sh
 ```
 
 http://localhost:8080/version
 
-(Version and LastCommitsha is unavailable locally becasue version is build numbner from Buldkite.)
+**Version is unavailable locally becasue version is the build number from Buldkite.**
+LastCommitSha is from environment variable set by `run_local.sh` when running locally. When it is deployed by BuildKite, Version and LastCommitSha is from Buildkite agent environment variables `BUILDKITE_BUILD_NUMBER` and `BUILDKITE_COMMIT` which is a feature of Buildkite. 
 
 ## Risks:
 - This demo API does not have any authentication which is required for real application.
